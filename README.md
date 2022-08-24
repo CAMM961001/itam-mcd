@@ -5,7 +5,7 @@ Repo para trabajos y tareas de la Maestría en Ciencia de Datos del ITAM
 
 ## Instancia gratuita de AWS - EC2
 
-Para algunas asignatura del programa es necesario tener una instancia de AWS-EC2. Para ello el ITAM pone a disposición una **cuenta estudiantil** con la cual no es necesario registrar información bancaria en el portal de AWS. Sin embargo, también existe la posibilidad de utilizar **clusters gratuitos** que permiten satisfacer los requerimientos de dichas asignaturas y que, desde mi punto de vista, tienen mayor respaldo documental en AWS así como soporte de la comunidad.
+Para algunas asignaturas del programa es necesario tener una instancia de AWS-EC2. Para ello el ITAM pone a disposición una **cuenta estudiantil** con la cual no es necesario registrar información bancaria en el portal de AWS. Sin embargo, también existe la posibilidad de utilizar **clusters gratuitos** que permiten satisfacer los requerimientos de dichas asignaturas y que, desde mi punto de vista, tienen mayor respaldo documental en AWS así como soporte de la comunidad.
 
 ### Lanzamiento de la instancia
 Es necesario ingresar a la [consola de AWS](https://aws.amazon.com/es/console/) y seguir los siguientes pasos:
