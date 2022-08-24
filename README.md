@@ -19,7 +19,7 @@ Es necesario ingresar a la [consola de AWS](https://aws.amazon.com/es/console/) 
     * AMI: `Amazon Linux 2 AMI (HVM) - Kernel 5.10, SSD Volume Type`
     * Arquitectura: `64 bits (x86)`
     * Instancia. `t2.micro`
-    * Par de claves: Generé un par nuevo con valores `default` **IMPORTANTE**: Guardar el archivo `.pem` que se genera al crear un nuevo par de claves
+    * Par de claves: Generé un par nuevo con valores `default` </br>**IMPORTANTE**: Guardar el archivo `.pem` que se genera al crear un nuevo par de claves
     * Red: valores default
     * Almacenamiento: valores default, `1x 8 GiB, gp2`
     * Avanzados: `none`
