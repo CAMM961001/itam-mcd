@@ -19,7 +19,8 @@ Es necesario ingresar a la [consola de AWS](https://aws.amazon.com/es/console/) 
     * AMI: `Amazon Linux 2 AMI (HVM) - Kernel 5.10, SSD Volume Type`
     * Arquitectura: `64 bits (x86)`
     * Instancia. `t2.micro`
-    * Par de claves: Generé un par nuevo con valores `default` </br>**IMPORTANTE**: Guardar el archivo `.pem` que se genera al crear un nuevo par de claves
+    * Par de claves: Generé un par nuevo con valores `default` </br>**IMPORTANTE**:
+    <br>Guardar el archivo `.pem` que se genera al crear un nuevo par de claves
     * Red: valores default
     * Almacenamiento: valores default, `1x 8 GiB, gp2`
     * Avanzados: `none`
@@ -29,3 +30,26 @@ Para la descripción general de los pasos anteriores me basé en el siguiente [v
 
 ### Conexión a la instancia con WSL2
 En general me fue suficiente con seguir los pasos descritos en la [guía de AWS](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/WSL.html)
+
+Pasos de conexión a una instancia:
+1) Limitar los permisos de acceso de la instancia con el comando `chmod 400 ~/aws-ec2/key-pair-name.pem`, en mi caso:
+<br>chmod 400 ~/aws-ec2/itam-mcd-key.pem
+2) En una terminal de WSL2 ejecutar el comando `ssh -i /path/key-pair-name.pem instance-user-name@my-instance-public-dns-name`. Este paso nos conecta a la instancia (ejecutar `whoami` para verificar), en mi caso: 
+<br>ssh -i ~/aws-ec2/itam-mcd-key.pem ec2-user@**ec2-18-212-245-196**.compute-1.amazonaws.com
+
+**IMPORTANTE**:
+<br>La IP Pública en negritas (`ec2-18-212-245-196`) de la instrucción anterior cambia siempre que se detenga la instancia y se inicie nuevamente. Esto se puede solucionar con una entidad de AWS llamada **IP Elástica**, pero que ya tiene un costo asociado. Si no se va a utilizar una IP Elástica, asegurarse de **sustituir la IP** en todos los comandos y URL's que la requieran
+
+3) Instalación y configuración de Docker, estos pasos se ejecutan en el orden a continuación, y se hace una sola vez por instancia:
+   * `sudo usermod -a -G docker ec2-user`
+	* `id ec2-user`
+	* `newgrp docker`
+	* `sudo yum install python3-pip`
+	* `sudo pip3 install docker-compose`
+   * Para que Docker arranque automáticamente al arrancar la instancia: `sudo systemctl enable docker.service`
+   * Para arrancar el servicio: `sudo systemctl start docker.service`
+   * Comprobar Estatus: `sudo systemctl status docker.service`
+
+## Cheatsheet de bash
+* Instalar paquete en Linux: `sudo yum install <packages>`
+* Resaltar palabra buscada en historial: `history | grep <keyword>`
