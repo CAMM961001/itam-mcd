@@ -7,16 +7,21 @@ def ordenar_tendencia_central(df, agrupadora, ordenadora, mo='mean'):
     """
     Parámetros
     ----------
-    df: dataframe_lile
+    df: dataframe_like
         DataFrame que contiene al menos una variable agrupadora y
         una variable ordenadora
     agrupadora: str_like
         Nombre de la variable en df por la cual se quiere agrupar
     ordenadora: str_like
         Nombre de la variable en df por la cual se quiere ordenar
-    mo: medida de ordenamiento, default='mean'
+    mo: Medida de ordenamiento, default='mean'
         Métrica por la cual se quiere ordenar df
         Valores que puede tomar: {'mean', 'median' 'std'}
+
+    Salidas
+    ----------
+    'df' de entrada ordenado por las categorías de la medida
+    de tendencia central seleccionada
     """
     #Medidas de ordenamiento
     MO = {'mean': df[[agrupadora,ordenadora]].groupby(by=agrupadora).mean(),
@@ -35,6 +40,25 @@ def ordenar_tendencia_central(df, agrupadora, ordenadora, mo='mean'):
 
 
 def tabla_prueba_permutacion(df, agrupadora, permutadora, n=20):
+    """
+    Parámetros
+    ----------
+    df: dataframe_like
+        DataFrame que contiene al menos una variable agrupadora y
+        una variable por permutar
+    agrupadora: str_like
+        Nombre de la variable en df por la cual se quiere agrupar
+    permutadora: str_like
+        Nombre de la variable en df a la cual se le quieren generar
+        permutaciones
+    n: Número de permutaciones, default=20
+
+    Salidas
+    ----------
+    'perm_df' Dataframe que contiene 'agrupadora' como variable
+    de referencia, 'permutadora' como variable por permutar, y 'n-1'
+    permutaciones ordenadas aleatoriamente.
+    """
     #Se hace una copia del arreglo a permutar
     perm_df = df[[agrupadora, permutadora]].copy()
 
