@@ -1,5 +1,6 @@
 # Referencias
-A continuación se enlistan algunas referencias de interés para el curso
+Las notas del curso se encuentran en la siguiente [liga](https://felipegonzalez.github.io/aprendizaje-maquina-mcd-2022/), mismas que apuntan al siguiente [repositorio](https://github.com/felipegonzalez/aprendizaje-maquina-mcd-2022). A continuación se enlistan algunas referencias de interés para el curso.
+
 ## Preprocesamiento y Pipelines
 Referencias para Python:
 * [Scikit Learn - Dataset Transformations](https://scikit-learn.org/stable/data_transforms.html)
