@@ -5,6 +5,9 @@ import pandas as pd
 
 def ordenar_tendencia_central(df, agrupadora, ordenadora, mo='mean'):
     """
+    Descripción: Función para ordena un dataframe por una medida
+    de tendencia central definida
+    ----------
     Parámetros
     ----------
     df: dataframe_like
@@ -25,7 +28,8 @@ def ordenar_tendencia_central(df, agrupadora, ordenadora, mo='mean'):
     """
     #Medidas de ordenamiento
     MO = {'mean': df[[agrupadora,ordenadora]].groupby(by=agrupadora).mean(),
-         'median': df[[agrupadora,ordenadora]].groupby(by=agrupadora).median()}
+         'median': df[[agrupadora,ordenadora]].groupby(by=agrupadora).median(),
+         'std': df[[agrupadora,ordenadora]].groupby(by=agrupadora).std()}
     
     #Listado con ordenamiento
     L = MO[mo].sort_values(by=ordenadora).index.to_list()
@@ -41,6 +45,9 @@ def ordenar_tendencia_central(df, agrupadora, ordenadora, mo='mean'):
 
 def tabla_prueba_permutacion(df, agrupadora, permutadora, n=20):
     """
+    Descripción: Función para crear conjuntos permutados de una 
+    variable de interés. Particularmente útil para prueba line-up
+    ----------
     Parámetros
     ----------
     df: dataframe_like
@@ -79,3 +86,34 @@ def tabla_prueba_permutacion(df, agrupadora, permutadora, n=20):
     perm_df = perm_df[columns]
 
     return perm_df
+
+
+def ordenar_cuntiles(df, by):
+    """
+    Descripción: Función para ordena un dataframe o serie y obtener
+    sus cuantiles. Particularmente útila para hacer gráficas de
+    cuantiles
+    ----------
+    Parámetros
+    ----------
+    df: dataframe_like
+        DataFrame o Serie que contiene al menos una variable ordenadora.
+    by: Columna de la cual se quiere obtener el ordenamiento por cuantiles
+
+    Salidas
+    ----------
+    'orden' Dataframe que contiene 'by' como variable
+    de referencia, 'orden' como secuencia de ordenamiento, y 'f'
+    como el cuantil que representa cada registro.
+    """
+    #Dataframe con datos ordenados
+    orden = pd.DataFrame(df.sort_values(), columns=[by])
+    orden.reset_index(drop=True, inplace=True)
+    
+    #Columna con jerarquía de orden
+    orden['orden'] = pd.Series(np.arange(1,orden.shape[0]+1))
+    
+    #Columna con frecuencia de orden
+    orden['f'] = (orden['orden'] - 0.5)/len(orden)
+    
+    return orden
