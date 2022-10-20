@@ -1,0 +1,694 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "56ab888c-5b52-4939-881f-84f89c4080e5",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import numpy as np\n",
+    "np.set_printoptions(precision=3, suppress=True)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "6bada025-1b3c-4fc0-bd71-37c89d6131ea",
+   "metadata": {},
+   "source": [
+    "## $\\mathbb{A}$ diagonalizable"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "f66a8041-9a88-429f-be7a-d65b4c165df7",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([[  1.,  -4.,  -4.],\n",
+       "       [  8., -11.,  -8.],\n",
+       "       [ -8.,   8.,   5.]])"
+      ]
+     },
+     "execution_count": 2,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "A = np.array([[1,-4,-4],\n",
+    "              [8,-11,-8],\n",
+    "              [-8,8,5]], dtype=float)\n",
+    "A"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "ae7380bc-dd07-43d7-b5fc-aade391f5b33",
+   "metadata": {},
+   "source": [
+    "Vectores y valores **característicos**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "2faa6caf-81cc-4dc1-87e9-33c272f63c11",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(array([ 1., -3., -3.]),\n",
+       " array([[ 0.333, -0.717, -0.241],\n",
+       "        [ 0.667, -0.02 , -0.796],\n",
+       "        [-0.667, -0.697,  0.555]]))"
+      ]
+     },
+     "execution_count": 3,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "evalue, evector = np.linalg.eig(A)\n",
+    "evalue, evector"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "93d803ae-24ec-48c3-bef6-70ae26d766a4",
+   "metadata": {},
+   "source": [
+    "Cálculo de la matriz $\\mathbb{A}=\\mathbb{X}\\Lambda\\mathbb{X}^{-1}$"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "79141abf-5961-459f-9978-5a1a58a1fbd9",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([[  1.,  -4.,  -4.],\n",
+       "       [  8., -11.,  -8.],\n",
+       "       [ -8.,   8.,   5.]])"
+      ]
+     },
+     "execution_count": 4,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "X = evector\n",
+    "Lambda = np.diag(evalue)\n",
+    "\n",
+    "X @ Lambda @ np.linalg.inv(X)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "548b97fd-0118-4b44-ab89-54bda5f522ec",
+   "metadata": {},
+   "source": [
+    "$\\mathbb{A}$ es diagonalizable pues: $\\mathbb{X}^{-1}\\mathbb{A}\\mathbb{X}=\\Lambda$\n",
+    "\n",
+    "Observamos que se regresa a la misma matriz diagonal $\\Lambda$"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "59f0b7c1-7d99-414c-9bba-fb7a87eead27",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([[ 1.,  0., -0.],\n",
+       "       [-0., -3., -0.],\n",
+       "       [ 0., -0., -3.]])"
+      ]
+     },
+     "execution_count": 5,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "np.linalg.inv(X) @ A @ X"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "a8df102b-558d-4bc6-a34a-9d147b3bfb4d",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([[ 1.,  0.,  0.],\n",
+       "       [ 0., -3.,  0.],\n",
+       "       [ 0.,  0., -3.]])"
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "Lambda"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "b59bafef-8254-4825-802e-38dfaa3245eb",
+   "metadata": {},
+   "source": [
+    "Sin embargo, $\\mathbb{X}$ no necesariamente es una matriz ortogonal"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "cd80e43e-bf12-461a-9b4c-8cd87c5ad9e0",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0.9999999999999998"
+      ]
+     },
+     "execution_count": 7,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "X[:,0].dot(X[:,0])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "a0e8a4c6-1bb3-443a-9c4e-7d8d82d1b359",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0.2117366284008177"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "X[:,0].dot(X[:,1])"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "54218c22-bf99-4630-b92d-7d47c50ed9da",
+   "metadata": {},
+   "source": [
+    "## $\\mathbb{A}$ simétrica\n",
+    "\n",
+    "**Descomposición espectral**: $A = Q\\Lambda Q^T$\n",
+    "\n",
+    "**Ejemplo**:\n",
+    "<br>Matriz simétrica y descomposición espectral de la misma:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "id": "d67927c9-222f-4059-b98b-3075aef3163f",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([[5., 4., 2.],\n",
+       "       [4., 5., 2.],\n",
+       "       [2., 2., 2.]])"
+      ]
+     },
+     "execution_count": 9,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "A = np.array([[5,4,2],\n",
+    "              [4,5,2],\n",
+    "              [2,2,2.0]])\n",
+    "A"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "id": "3e078655-22bb-47f8-bb20-2b349d9e9998",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(array([ 1.,  1., 10.]),\n",
+       " array([[ 0.482,  0.569,  0.667],\n",
+       "        [-0.727, -0.166,  0.667],\n",
+       "        [ 0.49 , -0.806,  0.333]]))"
+      ]
+     },
+     "execution_count": 10,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "evalue, evector = np.linalg.eigh(A)\n",
+    "evalue, evector"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "56ff4aef-489c-48de-8c8e-4dbf5dde41a0",
+   "metadata": {},
+   "source": [
+    "Descomposición espectral, se verifica que el producto $Q\\Lambda Q^T$ coincide con la matriz"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "id": "544b2e4b-6175-45c5-95df-870b7f5d6250",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([[5., 4., 2.],\n",
+       "       [4., 5., 2.],\n",
+       "       [2., 2., 2.]])"
+      ]
+     },
+     "execution_count": 11,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "Lambda = np.diag(evalue)\n",
+    "Q = evector\n",
+    "\n",
+    "Q @ Lambda @ Q.T"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "36946dd8-158f-4e1d-bfc7-29faa40df410",
+   "metadata": {},
+   "source": [
+    "$A$ es diagonalizable pues: $Q^TAQ=\\Lambda$\n",
+    "\n",
+    "Obsérvese que se llegan a los mismo valores `[1, 1, 10]` de la función `np.linalg.eigh()`"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "id": "149b27e0-755e-4f8d-8aee-4f31e75edeb5",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([[ 1.,  0.,  0.],\n",
+       "       [-0.,  1., -0.],\n",
+       "       [ 0.,  0., 10.]])"
+      ]
+     },
+     "execution_count": 12,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "Q.T @ A @ Q"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "18eea6d5-86c4-4ea0-8d48-a3b60406f070",
+   "metadata": {},
+   "source": [
+    "# Similitud"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "id": "df635c14-7205-4f9b-8610-a6332280da9c",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([[ -1.,  -1.,  -1.,  -1.],\n",
+       "       [  0.,  -5., -16., -22.],\n",
+       "       [  0.,   3.,  10.,  14.],\n",
+       "       [  4.,   8.,  12.,  14.]])"
+      ]
+     },
+     "execution_count": 13,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "A = np.array([[-1, -1 , -1, -1],\n",
+    "              [0, -5, -16, -22],\n",
+    "              [0, 3, 10, 14],\n",
+    "              [4, 8, 12, 14.0]])\n",
+    "A"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "id": "a5c1d990-b2d4-4149-a889-2ee5d4752210",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([[ 2., -1.,  0.,  0.],\n",
+       "       [-1.,  2., -1.,  0.],\n",
+       "       [ 0., -1.,  2., -1.],\n",
+       "       [ 0.,  0., -1.,  1.]])"
+      ]
+     },
+     "execution_count": 14,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "X1 = np.array([[2, -1, 0, 0],\n",
+    "              [-1, 2, -1, 0],\n",
+    "              [0, -1, 2, -1],\n",
+    "              [0, 0, -1, 1.0]])\n",
+    "X1"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "7359bb08-ced8-4a38-b770-a79bc0b16f7a",
+   "metadata": {},
+   "source": [
+    "$B_1=X_1^{-1}AX_1$\n",
+    "\n",
+    "Calculamos $B_1$ explícitamente para revisar qué forma tiene"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "id": "42528811-e9a0-4aa2-a308-d0b45f951eab",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([[ 1.,  2., -0.,  0.],\n",
+       "       [ 3.,  4., -0.,  0.],\n",
+       "       [ 0., -0.,  5.,  6.],\n",
+       "       [ 0., -0.,  7.,  8.]])"
+      ]
+     },
+     "execution_count": 15,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "B1 = np.linalg.inv(X1) @ A @ X1\n",
+    "B1"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "2d38b969-f9d3-48f5-9028-c110d01a7ac7",
+   "metadata": {},
+   "source": [
+    "$B_2=X_2^{-1}AX_2$\n",
+    "\n",
+    "Calculamos $B_1$ explícitamente para revisar qué forma tiene"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "id": "017f8831-e7c2-4bd1-a3f7-599abed95bfa",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([[  1.,   2.,   0.,  -6.],\n",
+       "       [  3.,   4.,   0., -14.],\n",
+       "       [  0.,   0.,  -1.,  -3.],\n",
+       "       [  0.,   0.,   4.,  14.]])"
+      ]
+     },
+     "execution_count": 16,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "X2 = np.array([[2, -1, 1, 0],\n",
+    "               [-1, 2, 0, 0],\n",
+    "               [0, -1, 0, 0],\n",
+    "               [0, 0, 0, 1.0]])\n",
+    "\n",
+    "B2 = np.linalg.inv(X2) @ A @ X2\n",
+    "B2"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "197c1f9d-84d9-4090-a08a-8cf22e03c5ed",
+   "metadata": {},
+   "source": [
+    "$B_1$ y $B_2$ son entonces similares a $A$, por tanto tienen los mismo valores característicos"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 23,
+   "id": "0e822ed6-1ad3-4a9f-a471-481657a96dcb",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([13.152,  5.372, -0.152, -0.372])"
+      ]
+     },
+     "execution_count": 23,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "evalue, evector = np.linalg.eig(A)\n",
+    "evalue"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "id": "7c5dbf2f-e370-4b75-a579-18b1bc5237c0",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([ 5.372, -0.372, 13.152, -0.152])"
+      ]
+     },
+     "execution_count": 20,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "evalue_B1, evector_B1 = np.linalg.eig(B1)\n",
+    "evalue_B1"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 21,
+   "id": "fb4a5ec9-327d-4dcd-92a8-6ebee755e9bc",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([-0.372,  5.372, -0.152, 13.152])"
+      ]
+     },
+     "execution_count": 21,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "evalue_B2, evector_B2 = np.linalg.eig(B2)\n",
+    "evalue_B2"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "1eee7a93-f6f9-43ba-9e56-736fa91d7f24",
+   "metadata": {},
+   "source": [
+    "Los vectores característicos **no son los mismos** aunque las matrices sean similares, pero pueden obtenerse vía multiplicación de matrices"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 25,
+   "id": "6d705ebc-3b31-4198-afc2-7e2bed99d67b",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(array([[-0.   , -0.046, -0.   , -0.736],\n",
+       "        [-0.806,  0.838, -0.281,  0.65 ],\n",
+       "        [ 0.517, -0.543,  0.804, -0.188],\n",
+       "        [ 0.289,  0.   , -0.523, -0.   ]]),\n",
+       " array([[ 0.416, -0.825, -0.   ,  0.   ],\n",
+       "        [ 0.909,  0.566, -0.   , -0.   ],\n",
+       "        [ 0.   ,  0.   ,  0.593, -0.759],\n",
+       "        [ 0.   , -0.   ,  0.805,  0.651]]),\n",
+       " array([[-0.825, -0.416,  0.537,  0.357],\n",
+       "        [ 0.566, -0.909,  0.326,  0.811],\n",
+       "        [ 0.   ,  0.   , -0.749,  0.096],\n",
+       "        [ 0.   ,  0.   ,  0.212, -0.453]]))"
+      ]
+     },
+     "execution_count": 25,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "evector, evector_B1, evector_B2"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "57bff194-f854-497a-a8ab-941f6049703c",
+   "metadata": {},
+   "source": [
+    "Como $A$ tiene eigenvalores distintos entonces es diagonalizable, esto es existen $X_3,\\Lambda$ tales que $X_3^{-1}AX_3=\\Lambda$"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 27,
+   "id": "50cfbdff-441b-4984-83ae-cd72df7b72cb",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([[13.152,  0.   ,  0.   ,  0.   ],\n",
+       "       [ 0.   ,  5.372,  0.   ,  0.   ],\n",
+       "       [ 0.   ,  0.   , -0.152,  0.   ],\n",
+       "       [ 0.   ,  0.   ,  0.   , -0.372]])"
+      ]
+     },
+     "execution_count": 27,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "X_3 = evector\n",
+    "Lambda = np.diag(evalue)\n",
+    "\n",
+    "Lambda"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 28,
+   "id": "95946e99-a366-4d7c-8866-06bd51f04772",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([[13.152, -0.   , -0.   ,  0.   ],\n",
+       "       [ 0.   ,  5.372, -0.   ,  0.   ],\n",
+       "       [-0.   ,  0.   , -0.152,  0.   ],\n",
+       "       [-0.   ,  0.   , -0.   , -0.372]])"
+      ]
+     },
+     "execution_count": 28,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "np.linalg.inv(X_3) @ A @ X_3"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "eda63c40-b722-4ec8-8799-32ba01949d12",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.9.6"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
