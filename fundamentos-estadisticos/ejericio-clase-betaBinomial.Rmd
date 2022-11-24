@@ -1,0 +1,51 @@
+---
+title: "ejercicio-clase"
+author: "macm"
+date: "2022-11-16"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+sim_inicial <- tibble(theta = rbeta(10000, 3, 3))
+ggplot(sim_inicial) +
+  geom_histogram(aes(x = theta, y = ..density..), bins = 15)
+```
+
+```{r}
+sim_inicial <- sim_inicial %>% 
+  mutate(dist = "inicial")
+
+sim_posterior <- tibble(theta = rbeta(10000, 22, 14)) %>% 
+  mutate(dist = "posterior")
+
+sims <- bind_rows(sim_inicial, sim_posterior)
+
+ggplot(sims, aes(x = theta, fill = dist)) +
+  geom_histogram(aes(x = theta), bins = 30, alpha = 0.5, position = "identity")
+```
+
+```{r}
+sims %>%
+  group_by(dist) %>%
+  summarise(theta_hat = mean(theta) %>% 
+  round(3))
+```
+
+```{r}
+f <- c(0.025, 0.975)
+
+sims %>%
+  group_by(dist) %>%
+  summarise(cuantiles = quantile(theta, f) %>% round(2), f = f) %>%
+  pivot_wider(names_from = f, values_from = cuantiles)
+```
+
+
+
+
+
+

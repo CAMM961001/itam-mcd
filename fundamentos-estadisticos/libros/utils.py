@@ -107,7 +107,7 @@ def ordenar_cuntiles(df, by):
     como el cuantil que representa cada registro.
     """
     #Dataframe con datos ordenados
-    orden = pd.DataFrame(df.sort_values(), columns=[by])
+    orden = pd.DataFrame(df.sort_values(by=by)[by])
     orden.reset_index(drop=True, inplace=True)
     
     #Columna con jerarquía de orden
